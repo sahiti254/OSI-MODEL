@@ -1,0 +1,152 @@
+import random
+
+class ApplicationLayer:
+    @staticmethod
+    def send(data):
+        print("Application Layer: Sending data")
+        print("Application Layer: Encrypting data")
+        encrypted_data = data[::-1]  # Simple encryption by reversing the data
+        return encrypted_data
+
+    @staticmethod
+    def receive(data):
+        print("Application Layer: Receiving data")
+        print("Application Layer: Decrypting data")
+        decrypted_data = data[::-1]  # Simple decryption by reversing the data
+        return decrypted_data
+
+
+class PresentationLayer:
+    @staticmethod
+    def encode(data):
+        print("Presentation Layer: Encoding data")
+        # Simulate data compression
+        compressed_data = data.replace(" ", "")
+        return compressed_data
+
+    @staticmethod
+    def decode(data):
+        print("Presentation Layer: Decoding data")
+        # Simulate data decompression
+        decompressed_data = " ".join([data[i:i+2] for i in range(0, len(data), 2)])
+        return decompressed_data
+
+
+class SessionLayer:
+    @staticmethod
+    def establish_connection():
+        print("Session Layer: Establishing connection")
+        connection_id = random.randint(1000, 9999)
+        print(f"Session Layer: Connection established. Connection ID: {connection_id}")
+        return connection_id
+
+    @staticmethod
+    def close_connection(connection_id):
+        print(f"Session Layer: Closing connection. Connection ID: {connection_id}")
+
+
+class TransportLayer:
+    @staticmethod
+    def segment(data):
+        print("Transport Layer: Segmenting data")
+        # Simulate data segmentation
+        segments = [data[i:i+5] for i in range(0, len(data), 5)]
+        return segments
+
+    @staticmethod
+    def reassemble(segments):
+        print("Transport Layer: Reassembling data")
+        # Simulate data reassembly
+        data = "".join(segments)
+        return data
+
+
+class NetworkLayer:
+    @staticmethod
+    def route(data):
+        print("Network Layer: Routing data")
+        # Simulate data routing
+        routed_data = f"Routed: {data}"
+        return routed_data
+
+
+class DataLinkLayer:
+    @staticmethod
+    def frame(data):
+        print("Data Link Layer: Framing data")
+        # Simulate framing by adding start and stop flags
+        framed_data = f"<START>{data}<STOP>"
+        return framed_data
+
+    @staticmethod
+    def unframe(data):
+        print("Data Link Layer: Unframing data")
+        # Simulate unframing by removing start and stop flags
+        unframed_data = data.replace("<START>", "").replace("<STOP>", "")
+        return unframed_data
+
+
+class PhysicalLayer:
+    @staticmethod
+    def send(data):
+        print("Physical Layer: Transmitting data as signals")
+        # Simulate signal transmission
+        transmitted_data = f"Transmission: {data}"
+        return transmitted_data
+
+    @staticmethod
+    def receive(data):
+        print("Physical Layer: Receiving and converting signals")
+        # Simulate signal reception
+        received_data = data.replace("Transmission: ", "")
+        return received_data
+
+
+def main():
+    message = "Hello, OSI Model!"
+
+    # Application Layer
+    encrypted_message = ApplicationLayer.send(message)
+
+    # Presentation Layer
+    compressed_message = PresentationLayer.encode(encrypted_message)
+
+    # Session Layer
+    connection_id = SessionLayer.establish_connection()
+
+    # Transport Layer
+    segmented_data = TransportLayer.segment(compressed_message)
+
+    # Network Layer
+    routed_data = NetworkLayer.route(segmented_data)
+
+    # Data Link Layer
+    framed_data = DataLinkLayer.frame(routed_data)
+
+    # Physical Layer
+    transmitted_data = PhysicalLayer.send(framed_data)
+
+    # Simulate transmission over a network
+    received_data = PhysicalLayer.receive(transmitted_data)
+
+    # Data Link Layer
+    unframed_data = DataLinkLayer.unframe(received_data)
+
+    # Network Layer
+    routed_data = NetworkLayer.route(unframed_data)
+
+    # Transport Layer
+    reassembled_message = TransportLayer.reassemble(routed_data)
+
+    # Presentation Layer
+    decompressed_message = PresentationLayer.decode(reassembled_message)
+
+    # Application Layer
+    decrypted_message = ApplicationLayer.receive(decompressed_message)
+
+    # Session Layer
+    SessionLayer.close_connection(connection_id)
+
+
+if __name__ == "__main__":
+    main()
